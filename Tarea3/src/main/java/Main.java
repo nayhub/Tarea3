@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         Expendedor exp = new Expendedor(5, 300);
@@ -244,7 +245,7 @@ class Comprador {
         return sabor;
     }
 }
-import java.util.ArrayList;
+
 
 /** clase que almacena productos
  *
@@ -491,7 +492,7 @@ abstract class Moneda {
 /** subclase de Moneda para monedas de 100
  *
  */
-public class Moneda100 extends Moneda {
+class Moneda100 extends Moneda {
     public Moneda100() {
         super();
     }
@@ -507,7 +508,7 @@ public class Moneda100 extends Moneda {
 /** subclase de Moneda para monedas de 500
  *
  */
-public class Moneda500 extends Moneda{
+class Moneda500 extends Moneda{
     public Moneda500()
     {
         super(); }
@@ -523,7 +524,7 @@ public class Moneda500 extends Moneda{
 /** subclase de Moneda para monedas de 1000
  *
  */
-public class Moneda1000 extends Moneda{
+class Moneda1000 extends Moneda{
     public Moneda1000(){ super(); }
 
     /**
@@ -535,7 +536,7 @@ public class Moneda1000 extends Moneda{
 /** subclase de Moneda para monedas de 1500}
  *
  */
-public class Moneda1500 extends Moneda{
+class Moneda1500 extends Moneda{
     public Moneda1500(){ super(); }
 
     /** metodo para obtener valor de producto por medio de getter al ser 1500
@@ -547,7 +548,7 @@ public class Moneda1500 extends Moneda{
 /** clase para la exepción en el caso de que no hayan productos
  *
  */
-public class NoHayProductoExcption extends Exception{
+class NoHayProductoExcption extends Exception{
 
     /** constructor el cual recibe la exepción si es que no hay producto
      *
@@ -560,7 +561,7 @@ public class NoHayProductoExcption extends Exception{
 /** clase para la exepción en caso de que el pago del producto sea invalido
  *
  */
-public class PagoIncorrectoException extends NullPointerException{
+class PagoIncorrectoException extends NullPointerException{
 
     /**
      * constructor el cual recibe la exepción si es que el pago es invalido
@@ -574,7 +575,7 @@ public class PagoIncorrectoException extends NullPointerException{
 /** clase para la exepción en caso de que el que el valor ingresado sea inferior
  * al solicitado
  */
-public class PagoInsuficienteException extends Exception{
+class PagoInsuficienteException extends Exception{
 
     /** constructor el cual recibe la exepción si es que el valor ingresado es inferior
      * al solicitado
