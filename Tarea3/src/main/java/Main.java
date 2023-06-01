@@ -7,7 +7,7 @@ public class Main {
 
 
         try {
-            m = new Moneda500();
+            m = new Moneda100();
             c = new Comprador(m, 1, exp);
             System.out.println("Bebida " + c.ComisteBebiste() + " tu vuelto es de " + c.Vuelto());
             m = new Moneda500();
@@ -391,7 +391,7 @@ class Expendedor {
      */
 
 
-    public Producto comprarBebida(Moneda m, int n)throws NoHayProductoException, PagoInsuficienteException {
+    public Producto comprarBebida(Moneda m, int n)throws NullPointerException, NoHayProductoException, PagoInsuficienteException {
         if (m == null)
             throw new PagoIncorrectoException("pago invalido");
 
@@ -402,7 +402,6 @@ class Expendedor {
         Dulce s8 = null;
 
 
-        if (m != null && m.getValor() >= precio) {
 
             if (n == 1 && m.getValor() >= precio) {
                 cc = (Bebida) coca.getProducto();
@@ -448,7 +447,7 @@ class Expendedor {
             if (n < 1 || n > 4) {
                 throw new NoHayProductoException("Producto Invalido");
             }
-        }
+
             while (vuelto > 0) {
                 monVu.addMoneda(new Moneda100());
                 vuelto = vuelto - 100;
