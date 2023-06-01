@@ -1,5 +1,13 @@
+import org.junit.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ExpendedorTest {
+
+    @Test
+    void expendedor(){
+
+
+    }
 
 }
