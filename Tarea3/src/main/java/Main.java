@@ -534,7 +534,7 @@ class Moneda1000 extends Moneda{
 
     /**
      * metodo para obtener valor de producto por medio de getter al ser 1000
-     * @return 1000
+     * @return 1000'
      */
     public int getValor(){ return 1000; }
 }

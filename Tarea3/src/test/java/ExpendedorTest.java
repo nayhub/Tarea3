@@ -1,13 +1,8 @@
-import org.junit.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 class ExpendedorTest {
-
     @Test
-    void expendedor(){
-
-
+    @DisplayName("   ")
+    public void testexpendedor() {
     }
-
 }

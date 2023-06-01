@@ -1,13 +1,8 @@
-import org.junit.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 class DepositoTest {
-
     @Test
-    void deposito(){
-
-
+    @DisplayName("   ")
+    public void testdeposito() {
     }
-
 }
