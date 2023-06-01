@@ -1,14 +1,13 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
-        Expendedor exp = new Expendedor(5, 300);
+        Expendedor exp = new Expendedor(1, 300);
         Comprador c = null;
         Moneda m = null;
 
 
         try {
-            m = new Moneda100();
+            m = new Moneda500();
             c = new Comprador(m, 1, exp);
             System.out.println("Bebida " + c.ComisteBebiste() + " tu vuelto es de " + c.Vuelto());
             m = new Moneda500();
@@ -17,20 +16,23 @@ public class Main {
             m = new Moneda1000();
             c = new Comprador(m, 3, exp);
             System.out.println("Dulce " + c.ComisteBebiste() + " tu vuelto es de " + c.Vuelto());
-            m = new Moneda1000();
+            m = new Moneda1500();
             c = new Comprador(m, 4, exp);
             System.out.println("Dulce " + c.ComisteBebiste() + " tu vuelto es de " + c.Vuelto());
         }
         catch (PagoInsuficienteException INS) {
-            System.out.println("No le alcanza, " + "tenga su devolucion "+c.Vuelto() );
+            int devolucion = m.getValor();
+            System.out.println("No le alcanza, " + "tenga su devolucion "+devolucion );
         }
-        catch (NoHayProductoExcption noHay){
-            System.out.println("No queda el dulce o bebida elegido,"+"devolucion "+c.Vuelto() );
+        catch (NoHayProductoException noHay){
+            int devolucion = m.getValor();
+            System.out.println("No queda el dulce o bebida elegido,"+"devolucion "+devolucion );
         }
         catch (PagoIncorrectoException ErrorEnPago){
             System.out.println("Error en su pago, intente nuevamente");
         }
-    }}
+    }
+}
 
 /**
  superclase de bebida
@@ -197,7 +199,7 @@ class Comprador {
 
     private String sabor;
 
-    private int exp;
+    private Expendedor exp;
 
     private int vuelto;
 
@@ -208,23 +210,35 @@ class Comprador {
      * @param cualBebida
      * @param exp
      * @throws PagoInsuficienteException
-     * @throws NoHayProductoExcption
+     * @throws NoHayProductoException
      */
 
-    public Comprador(Moneda m, int cualBebida, Expendedor exp) throws PagoInsuficienteException, NoHayProductoExcption{
+    public Comprador(Moneda m, int cualBebida, Expendedor exp) throws PagoInsuficienteException, NoHayProductoException{
+        this.exp = exp;
 
-        Producto a = exp.comprarBebida(m, cualBebida);
 
-        if (a == null) sabor = null;
-        else sabor = a.getnombre();
+        if (exp.comprarBebida(m, cualBebida) != null) {
+            switch (cualBebida) {
+                case 1:
+                    sabor = "cocacola";
+                    break;
+                case 2:
+                    sabor = "sprite";
+                    break;
+                case 3:
+                    sabor = "snickers";
+                    break;
+                case 4:
+                    sabor = "super8";
+                    break;
+            }
+    }
+        Moneda moneda = null;
 
-        boolean b = true;
-        while (b) {
-
-            Moneda s = exp.getVuelto();
-            if (s != null) vuelto += s.getValor();
-            else b = false;
-
+        moneda = exp.getVuelto();
+        while (moneda != null){
+            vuelto = vuelto + moneda.getValor();
+            moneda = exp.getVuelto();
         }
     }
 
@@ -345,11 +359,13 @@ class Expendedor {
     /**
      *  constructor del expendedor
      * @param numProducto
-     * @param precioProducto
+     * @param precio
      */
 
 
-    public Expendedor(int numProducto, int precioProducto) {
+    public Expendedor(int numProducto, int precio) {
+
+        this.precio=precio;
         coca = new Deposito();
         sprite = new Deposito();
         snicker = new Deposito();
@@ -358,14 +374,10 @@ class Expendedor {
 
 
         for (int i = 0; i < numProducto; i++) {
-            Bebida cc = new CocaCola(100 + i);
-            coca.addProducto(cc);
-            Bebida sp = new Sprite(200 + i);
-            sprite.addProducto(sp);
-            Dulce sk = new Snicker(300 + i);
-            snicker.addProducto(sk);
-            Dulce s8 = new Super8(400 + i);
-            super8.addProducto(s8);
+            coca.addProducto(new CocaCola(100+i));
+            sprite.addProducto(new Sprite(200 +i));
+            snicker.addProducto(new Snicker(300 +i));
+            super8.addProducto(new Super8(400 +i));
         }
     }
 
@@ -374,96 +386,90 @@ class Expendedor {
      * @param m
      * @param n
      * @return
-     * @throws NoHayProductoExcption
+     * @throws NoHayProductoException
      * @throws PagoInsuficienteException
      */
 
 
-    public Producto comprarBebida(Moneda m, int n)throws NoHayProductoExcption, PagoInsuficienteException {
-        if(m==null)
+    public Producto comprarBebida(Moneda m, int n)throws NoHayProductoException, PagoInsuficienteException {
+        if (m == null)
             throw new PagoIncorrectoException("pago invalido");
 
+        int vuelto = m.getValor();
         Bebida cc = null;
         Bebida sp = null;
         Dulce sk = null;
         Dulce s8 = null;
-        int V = m.getValor();
+
 
         if (m != null && m.getValor() >= precio) {
 
-            if (n == 1) {
-                cc =(Bebida) coca.getProducto();{
-                    if (cc != null) {
-                        for (int i = 0; i < (m.getValor() - precio) / 100; i++) {
-                            Moneda100 a = new Moneda100();
-                            monVu.addMoneda(a);
-                        }}
-                    else if (cc == null) {
-                        throw new NoHayProductoExcption("No queda cocacola");
-
-                    }
-
+            if (n == 1 && m.getValor() >= precio) {
+                cc = (Bebida) coca.getProducto();
+                if (cc != null) {
+                    vuelto = m.getValor() - precio;
+                } else if (cc == null) {
+                    throw new NoHayProductoException("No quedan bebidas");
                 }
-
-            } else if (n == 2) {
-
-                sp =(Bebida) sprite.getProducto();
-                if (sp != null) {
-                    for (int i = 0; i < (m.getValor() - precio) / 100; i++) {
-                        Moneda100 a = new Moneda100();
-                        monVu.addMoneda(a);
-                    }
-                } else if (sp == null) {
-                    throw new NoHayProductoExcption("No quedan sprite");
-                }
-            } else if (n == 3) {
-                sk = (Dulce) snicker.getProducto();
-                if (sk != null){
-                    for (int i = 0; i < (m.getValor() - precio) / 100; i++) {
-                        Moneda100 a = new Moneda100();
-                        monVu.addMoneda(a);
-                    }} else if (sk == null) {
-                    throw new NoHayProductoExcption("No quedan snicker");
-                }
-
-            } else if (n == 4) {
-                s8 = (Dulce) super8.getProducto();
-                if (s8 != null){for (int i = 0; i < (m.getValor() - precio) / 100; i++) {
-                    Moneda100 a = new Moneda100();
-                    monVu.addMoneda(a);
-                }
-                } else if (s8 == null) {
-                    throw new NoHayProductoExcption("No quedan super8");
-                }
-
-            } else {
-                monVu.addMoneda(m);
-                return null;
+            } else if (n == 1 && m.getValor() < precio) {
+                throw new PagoInsuficienteException("Pago Insuficiente");
             }
-        } else {
+            if (n == 2 && m.getValor() >= precio) {
+                sp = (Bebida) sprite.getProducto();
+                if (sp != null) {
+                    vuelto = m.getValor() - precio;
+                } else if (sp == null) {
+                    throw new NoHayProductoException("No quedan bebidas");
+                }
+            } else if (n == 2 && m.getValor() < precio) {
+                throw new PagoInsuficienteException("Pago Insuficiente");
+            }
+            if (n == 3 && m.getValor() >= precio) {
+                sk = (Dulce) snicker.getProducto();
+                if (sk != null) {
+                    vuelto = m.getValor() - precio;
+                } else if (sk == null) {
+                    throw new NoHayProductoException("No quedan bebidas");
+                }
+            } else if (n == 3 && m.getValor() < precio) {
+                throw new PagoInsuficienteException("Pago Insuficiente");
+            }
 
-            monVu.addMoneda(m);
-            return null;
+            if (n == 4 && m.getValor() >= precio) {
+                s8 = (Dulce) super8.getProducto();
+                if (s8 != null) {
+                    vuelto = m.getValor() - precio;
+                } else if (s8 == null) {
+                    throw new NoHayProductoException("No quedan bebidas");
+                }
+            } else if (n == 4 && m.getValor() < precio) {
+                throw new PagoInsuficienteException("Pago Insuficiente");
+            }
+            if (n < 1 || n > 4) {
+                throw new NoHayProductoException("Producto Invalido");
+            }
         }
-        monVu.addMoneda(m);
-        return null;
-    }
+            while (vuelto > 0) {
+                monVu.addMoneda(new Moneda100());
+                vuelto = vuelto - 100;
+            }
+            switch (n) {
+                case 1:
+                    return cc;
+                case 2:
+                    return sp;
+                case 3:
+                    return sk;
+                case 4:
+                    return s8;
+                default:
+                    return null;
+            }
+        }
 
-    /** metodo para obtener el precio con un getter
-     *
-     * @return precio
-     */
-    public int getPrecio() {
-        return precio;
-    }
-
-    /** metodo para obtener el vuelto en monedas
-     *
-     */
-
-    public Moneda getVuelto() {
-        return (Moneda) monVu.getMoneda();
-    }
+        public Moneda getVuelto(){
+            return (Moneda) monVu.getMoneda();
+        }
 
 }
 /** superclase abstracta para monedas
@@ -548,13 +554,13 @@ class Moneda1500 extends Moneda{
 /** clase para la exepción en el caso de que no hayan productos
  *
  */
-class NoHayProductoExcption extends Exception{
+class NoHayProductoException extends Exception{
 
     /** constructor el cual recibe la exepción si es que no hay producto
      *
      * @param NoHay
      */
-    public NoHayProductoExcption(String NoHay){
+    public NoHayProductoException(String NoHay){
         super(NoHay);
     }
 }
