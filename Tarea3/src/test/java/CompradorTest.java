@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CompradorTest {
-    private Comprador compradorPrueba;
-    private Expendedor expendedorPrueba = new Expendedor(3,300);
-    private Moneda monedaPrueba = new Moneda1000();
+    private Comprador compradorTest;
+    private Expendedor expendedorTest = new Expendedor(3,300);
+    private Moneda monedaTest = new Moneda1000();
     @BeforeEach
     void setUp() throws NoHayProductoException, PagoInsuficienteException, PagoIncorrectoException {
-        compradorPrueba = new Comprador(monedaPrueba, 3, expendedorPrueba);
+        compradorTest = new Comprador(monedaTest, 3, expendedorTest);
     }
 
     @AfterEach
@@ -20,15 +20,15 @@ class CompradorTest {
 
     @Test
     @DisplayName("Test de vuelto")
-    public void testvuelto() {
-        System.out.println("Tu vuelto es: "+compradorPrueba.Vuelto());
-        assertEquals(700, compradorPrueba.Vuelto());
+    public void Vuelto() {
+        System.out.println("Tu vuelto es: "+compradorTest.Vuelto());
+        assertEquals(700, compradorTest.Vuelto());
     }
 
     @Test
-    @DisplayName("Test Dulce")
-    public void nombreProducto() {
-        System.out.println("Comio: "+ compradorPrueba.ComisteBebiste());
-        assertEquals("snickers",compradorPrueba.ComisteBebiste());
+    @DisplayName("Test del producto")
+    public void Producto() {
+        System.out.println("Compro: "+ compradorTest.ComisteBebiste());
+        assertEquals("snickers",compradorTest.ComisteBebiste());
     }
 }
