@@ -7,7 +7,7 @@ public class Main {
 
 
         try {
-            m = new Moneda100();
+            m = new Moneda500();
             c = new Comprador(m, 1, exp);
             System.out.println("Bebida " + c.ComisteBebiste() + " tu vuelto es de " + c.Vuelto());
             m = new Moneda500();
