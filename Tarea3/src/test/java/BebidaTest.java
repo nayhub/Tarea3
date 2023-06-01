@@ -1,11 +1,20 @@
-import static org.junit.jupiter.api.Assertions.*;
-abstract class BebidaTest extends Producto{
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-    public BebidaTest(int serie) {
-        super(serie);
+import static org.junit.jupiter.api.Assertions.*;
+
+class BebidaTest {
+
+    @BeforeEach
+    void setUp() {
     }
 
+    @AfterEach
+    void tearDown() {
+    }
 
+    @Test
+    void consumir() {
+    }
 }
-
-
