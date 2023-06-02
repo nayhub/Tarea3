@@ -29,6 +29,6 @@ class CompradorTest {
     @DisplayName("Test Dulce")
     public void nombreProducto() {
         System.out.println("Comio: "+ compradorPrueba.ComisteBebiste());
-        assertEquals("snickers",compradorPrueba.ComisteBebiste());
+        assertEquals("Snicker",compradorPrueba.ComisteBebiste());
     }
 }

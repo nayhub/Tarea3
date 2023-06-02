@@ -197,7 +197,7 @@ class Super8 extends Dulce {
  */
 class Comprador {
 
-    private String sabor;
+    private String producto;
 
     private Expendedor exp;
 
@@ -217,22 +217,17 @@ class Comprador {
         this.exp = exp;
 
 
-        if (exp.comprarBebida(m, cualBebida) != null) {
-            switch (cualBebida) {
-                case 1:
-                    sabor = "cocacola";
-                    break;
-                case 2:
-                    sabor = "sprite";
-                    break;
-                case 3:
-                    sabor = "snickers";
-                    break;
-                case 4:
-                    sabor = "super8";
-                    break;
+
+            if (exp.comprarBebida(m, cualBebida) != null) {
+                ProductosEnumeracion[] arrayProductosEnum = ProductosEnumeracion.values();
+                for (ProductosEnumeracion ProductosEnum : arrayProductosEnum) {
+                    if (ProductosEnum.getNum() == cualBebida) {
+                        producto = ProductosEnum.name();
+                        break;
+                    }
+                }
             }
-    }
+
         Moneda moneda = null;
 
         moneda = exp.getVuelto();
@@ -256,7 +251,7 @@ class Comprador {
      * @return sabor
      */
     public String ComisteBebiste() {
-        return sabor;
+        return producto;
     }
 }
 
@@ -408,30 +403,30 @@ class Expendedor {
                 if (cc != null) {
                     vuelto = m.getValor() - precio;
                 } else if (cc == null) {
-                    throw new NoHayProductoException("No quedan bebidas");
+                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
                 }
             } else if (n == 1 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente");
+                throw new PagoInsuficienteException("Pago Insuficiente excepction");
             }
             if (n == 2 && m.getValor() >= precio) {
                 sp = (Bebida) sprite.getProducto();
                 if (sp != null) {
                     vuelto = m.getValor() - precio;
                 } else if (sp == null) {
-                    throw new NoHayProductoException("No quedan bebidas");
+                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
                 }
             } else if (n == 2 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente");
+                throw new PagoInsuficienteException("Pago Insuficiente exception");
             }
             if (n == 3 && m.getValor() >= precio) {
                 sk = (Dulce) snicker.getProducto();
                 if (sk != null) {
                     vuelto = m.getValor() - precio;
                 } else if (sk == null) {
-                    throw new NoHayProductoException("No quedan bebidas");
+                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
                 }
             } else if (n == 3 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente");
+                throw new PagoInsuficienteException("Pago Insuficiente exception");
             }
 
             if (n == 4 && m.getValor() >= precio) {
@@ -439,13 +434,13 @@ class Expendedor {
                 if (s8 != null) {
                     vuelto = m.getValor() - precio;
                 } else if (s8 == null) {
-                    throw new NoHayProductoException("No quedan bebidas");
+                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
                 }
             } else if (n == 4 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente");
+                throw new PagoInsuficienteException("Pago Insuficiente exception");
             }
             if (n < 1 || n > 4) {
-                throw new NoHayProductoException("Producto Invalido");
+                throw new NoHayProductoException("No hay producto, eliga otro porfavor");
             }
 
             while (vuelto > 0) {
