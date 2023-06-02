@@ -345,21 +345,18 @@ class Expendedor {
     private Deposito snicker;
     private Deposito super8;
     private DepositoV monVu;
-    private int precio;
-    public static final int COCA = 1;
-    public static final int SPRITE = 2;
-    public static final int SNICKER = 3;
-    public static final int SUPER8 = 4;
+    private int Precio;
+
 
     /**
      *  constructor del expendedor
      * @param numProducto
-     * @param precio
+     * @param Precio
      */
 
 
-    public Expendedor(int numProducto, int precio) {
-        this.precio = precio;
+    public Expendedor(int numProducto, int Precio) {
+        this.Precio = Precio;
         coca = new Deposito();
         sprite = new Deposito();
         snicker = new Deposito();
@@ -400,10 +397,10 @@ class Expendedor {
 
 
         if (n == 1) {
-            if (m.getValor() >= precio) {
+            if (m.getValor() >= Precio) {
                 cc = (Bebida) coca.getProducto();
                 if (cc != null) {
-                    vuelto = m.getValor() - precio;
+                    vuelto = m.getValor() - Precio;
                 } else {
                     throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
@@ -411,10 +408,10 @@ class Expendedor {
                 throw new PagoInsuficienteException("Pago insuficiente");
             }
         } else if (n == 2) {
-            if (m.getValor() >= precio) {
+            if (m.getValor() >= Precio) {
                 sp = (Bebida) sprite.getProducto();
                 if (sp != null) {
-                    vuelto = m.getValor() - precio;
+                    vuelto = m.getValor() - Precio;
                 } else {
                     throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
@@ -422,10 +419,10 @@ class Expendedor {
                 throw new PagoInsuficienteException("Pago insuficiente");
             }
         } else if (n == 3) {
-            if (m.getValor() >= precio) {
+            if (m.getValor() >= Precio) {
                 sk = (Dulce) snicker.getProducto();
                 if (sk != null) {
-                    vuelto = m.getValor() - precio;
+                    vuelto = m.getValor() - Precio;
                 } else {
                     throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
@@ -433,10 +430,10 @@ class Expendedor {
                 throw new PagoInsuficienteException("Pago insuficiente");
             }
         } else if (n == 4) {
-            if (m.getValor() >= precio) {
+            if (m.getValor() >= Precio) {
                 s8 = (Dulce) super8.getProducto();
                 if (s8 != null) {
-                    vuelto = m.getValor() - precio;
+                    vuelto = m.getValor() - Precio;
                 } else {
                     throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
@@ -452,6 +449,26 @@ class Expendedor {
                 monVu.addMoneda(new Moneda100());
                 vuelto = vuelto - 100;
             }
+
+
+        PreciosEnumeracion Precio;
+
+        switch (n) {
+            case 1:
+                Precio = PreciosEnumeracion.CocaCola1;
+                break;
+            case 2:
+                Precio = PreciosEnumeracion.Spite2;
+                break;
+            case 3:
+                Precio = PreciosEnumeracion.Snicker3;
+                break;
+            case 4:
+                Precio = PreciosEnumeracion.Super84;
+                break;
+            default:
+                throw new NoHayProductoException("Producto Invalido");
+        }
             switch (n) {
                 case 1:
                     return cc;
