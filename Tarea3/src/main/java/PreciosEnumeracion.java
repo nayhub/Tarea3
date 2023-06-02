@@ -1,6 +1,6 @@
 enum PreciosEnumeracion {
     CocaCola1(300),
-    Spite2(300),
+    Sprite2(300),
     Snicker3(300),
     Super84(300);
 

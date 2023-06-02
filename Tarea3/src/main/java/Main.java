@@ -444,31 +444,11 @@ class Expendedor {
             throw new NoHayProductoException("No existe ese producto, elija otro por favor");
         }
 
-
             while (vuelto > 0) {
                 monVu.addMoneda(new Moneda100());
                 vuelto = vuelto - 100;
             }
 
-
-        PreciosEnumeracion Precio;
-
-        switch (n) {
-            case 1:
-                Precio = PreciosEnumeracion.CocaCola1;
-                break;
-            case 2:
-                Precio = PreciosEnumeracion.Spite2;
-                break;
-            case 3:
-                Precio = PreciosEnumeracion.Snicker3;
-                break;
-            case 4:
-                Precio = PreciosEnumeracion.Super84;
-                break;
-            default:
-                throw new NoHayProductoException("Producto Invalido");
-        }
             switch (n) {
                 case 1:
                     return cc;
