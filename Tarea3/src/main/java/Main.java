@@ -334,7 +334,10 @@ class DepositoV<T> {
         T moneda = mon.remove(0);
         return moneda;
     }
+
 }
+
+
 /** clase del expendedor
  *
  */
