@@ -62,6 +62,7 @@ abstract class Producto {
 
     public abstract String getnombre();
 
+    public abstract String getNombre();
 }
 
 
@@ -103,6 +104,11 @@ class CocaCola extends Bebida {
     public String getnombre() {
         return "cocacola";
     }
+
+    @Override
+    public String getNombre() {
+        return null;
+    }
 }
 
 /** subclase de bebida
@@ -127,6 +133,11 @@ class Sprite extends Bebida  {
          */
 
         return "sprite";
+    }
+
+    @Override
+    public String getNombre() {
+        return null;
     }
 }
 /**
@@ -166,6 +177,11 @@ class Snicker extends Dulce{
     public String getnombre() {
         return "snicker";
     }
+
+    @Override
+    public String getNombre() {
+        return null;
+    }
 }
 
 /** subclase de Dulce
@@ -190,6 +206,11 @@ class Super8 extends Dulce {
     public String getnombre() {
 
         return "super8";
+    }
+
+    @Override
+    public String getNombre() {
+        return null;
     }
 }
 /**
@@ -459,7 +480,7 @@ class Expendedor {
  *
  */
 abstract class Moneda {
-    public Moneda() {
+    public Moneda(int i) {
     }
 
     /** metodo para obtener serie por medio de getter
@@ -483,7 +504,7 @@ abstract class Moneda {
  */
 class Moneda100 extends Moneda {
     public Moneda100() {
-        super();
+        super(500);
     }
 
     /** metodo para obtener valor de producto por medio de getter al ser 100
@@ -500,7 +521,7 @@ class Moneda100 extends Moneda {
 class Moneda500 extends Moneda{
     public Moneda500()
     {
-        super(); }
+        super(500); }
 
     /** metodo para obtener valor de producto por medio de getter al ser 500
      *
@@ -514,7 +535,7 @@ class Moneda500 extends Moneda{
  *
  */
 class Moneda1000 extends Moneda{
-    public Moneda1000(){ super(); }
+    public Moneda1000(){ super(500); }
 
     /**
      * metodo para obtener valor de producto por medio de getter al ser 1000
@@ -526,7 +547,7 @@ class Moneda1000 extends Moneda{
  *
  */
 class Moneda1500 extends Moneda{
-    public Moneda1500(){ super(); }
+    public Moneda1500(){ super(500); }
 
     /** metodo para obtener valor de producto por medio de getter al ser 1500
      *
