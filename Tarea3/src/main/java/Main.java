@@ -213,29 +213,29 @@ class Comprador {
      * @throws NoHayProductoException
      */
 
-    public Comprador(Moneda m, int cualBebida, Expendedor exp) throws PagoInsuficienteException, NoHayProductoException{
+    public Comprador(Moneda m, int cualBebida, Expendedor exp) throws PagoInsuficienteException, NoHayProductoException {
         this.exp = exp;
 
-
-
-            if (exp.comprarBebida(m, cualBebida) != null) {
-                ProductosEnumeracion[] arrayProductosEnum = ProductosEnumeracion.values();
-                for (ProductosEnumeracion ProductosEnum : arrayProductosEnum) {
-                    if (ProductosEnum.getNum() == cualBebida) {
-                        producto = ProductosEnum.name();
-                        break;
-                    }
+        Producto productoComprado = exp.comprarBebida(m, cualBebida);
+        if (productoComprado != null) {
+            for (ProductosEnumeracion productoEnum : ProductosEnumeracion.values()) {
+                if (productoEnum.getNum() == cualBebida) {
+                    producto = productoEnum.name();
+                    break;
                 }
             }
-
-        Moneda moneda = null;
-
-        moneda = exp.getVuelto();
-        while (moneda != null){
-            vuelto = vuelto + moneda.getValor();
-            moneda = exp.getVuelto();
         }
+
+        Moneda moneda;
+        do {
+            moneda = exp.getVuelto();
+            if (moneda != null) {
+                vuelto += moneda.getValor();
+            }
+        } while (moneda != null);
     }
+
+
 
     /** metodo que retorna vuelto
      *
@@ -359,22 +359,23 @@ class Expendedor {
 
 
     public Expendedor(int numProducto, int precio) {
-
-        this.precio=precio;
+        this.precio = precio;
         coca = new Deposito();
         sprite = new Deposito();
         snicker = new Deposito();
         super8 = new Deposito();
         monVu = new DepositoV();
 
+        int initialProductId = 100;
 
         for (int i = 0; i < numProducto; i++) {
-            coca.addProducto(new CocaCola(100+i));
-            sprite.addProducto(new Sprite(200 +i));
-            snicker.addProducto(new Snicker(300 +i));
-            super8.addProducto(new Super8(400 +i));
+            coca.addProducto(new CocaCola(initialProductId + i));
+            sprite.addProducto(new Sprite(initialProductId + 100 + i));
+            snicker.addProducto(new Snicker(initialProductId + 200 + i));
+            super8.addProducto(new Super8(initialProductId + 300 + i));
         }
     }
+
 
     /**
      * Exepción para cuando no hay producto o el pago es insuficiente
@@ -398,50 +399,54 @@ class Expendedor {
 
 
 
-            if (n == 1 && m.getValor() >= precio) {
+        if (n == 1) {
+            if (m.getValor() >= precio) {
                 cc = (Bebida) coca.getProducto();
                 if (cc != null) {
                     vuelto = m.getValor() - precio;
-                } else if (cc == null) {
-                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
+                } else {
+                    throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
-            } else if (n == 1 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente excepction");
+            } else {
+                throw new PagoInsuficienteException("Pago insuficiente");
             }
-            if (n == 2 && m.getValor() >= precio) {
+        } else if (n == 2) {
+            if (m.getValor() >= precio) {
                 sp = (Bebida) sprite.getProducto();
                 if (sp != null) {
                     vuelto = m.getValor() - precio;
-                } else if (sp == null) {
-                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
+                } else {
+                    throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
-            } else if (n == 2 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente exception");
+            } else {
+                throw new PagoInsuficienteException("Pago insuficiente");
             }
-            if (n == 3 && m.getValor() >= precio) {
+        } else if (n == 3) {
+            if (m.getValor() >= precio) {
                 sk = (Dulce) snicker.getProducto();
                 if (sk != null) {
                     vuelto = m.getValor() - precio;
-                } else if (sk == null) {
-                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
+                } else {
+                    throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
-            } else if (n == 3 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente exception");
+            } else {
+                throw new PagoInsuficienteException("Pago insuficiente");
             }
-
-            if (n == 4 && m.getValor() >= precio) {
+        } else if (n == 4) {
+            if (m.getValor() >= precio) {
                 s8 = (Dulce) super8.getProducto();
                 if (s8 != null) {
                     vuelto = m.getValor() - precio;
-                } else if (s8 == null) {
-                    throw new NoHayProductoException("No hay producto, eliga otro porfavor");
+                } else {
+                    throw new NoHayProductoException("No hay producto, elija otro por favor");
                 }
-            } else if (n == 4 && m.getValor() < precio) {
-                throw new PagoInsuficienteException("Pago Insuficiente exception");
+            } else {
+                throw new PagoInsuficienteException("Pago insuficiente");
             }
-            if (n < 1 || n > 4) {
-                throw new NoHayProductoException("No hay producto, eliga otro porfavor");
-            }
+        } else {
+            throw new NoHayProductoException("No existe ese producto, elija otro por favor");
+        }
+
 
             while (vuelto > 0) {
                 monVu.addMoneda(new Moneda100());
