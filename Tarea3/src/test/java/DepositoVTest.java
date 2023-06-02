@@ -21,6 +21,7 @@ class DepositoVTest {
         assertEquals(moneda2, deposito.getMoneda());
         assertEquals(moneda3, deposito.getMoneda());
         assertNull(deposito.getMoneda());
+
     }
 }
 
