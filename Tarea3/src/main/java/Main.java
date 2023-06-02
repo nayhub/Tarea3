@@ -347,16 +347,8 @@ class Expendedor {
     private Deposito sprite;
     private Deposito snicker;
     private Deposito super8;
-    private DepositoV monVu;
+    private DepositoV<Moneda> monVu;
     private int Precio;
-
-
-    /**
-     *  constructor del expendedor
-     * @param numProducto
-     * @param Precio
-     */
-
 
     public Expendedor(int numProducto, int Precio) {
         this.Precio = Precio;
@@ -364,7 +356,7 @@ class Expendedor {
         sprite = new Deposito();
         snicker = new Deposito();
         super8 = new Deposito();
-        monVu = new DepositoV();
+        monVu = new DepositoV<>();
 
         int initialProductId = 100;
 
@@ -376,20 +368,9 @@ class Expendedor {
         }
     }
 
-
-    /**
-     * Exepción para cuando no hay producto o el pago es insuficiente
-     * @param m
-     * @param n
-     * @return
-     * @throws NoHayProductoException
-     * @throws PagoInsuficienteException
-     */
-
-
-    public Producto comprarBebida(Moneda m, int n)throws NullPointerException, NoHayProductoException, PagoInsuficienteException {
+    public Producto comprarBebida(Moneda m, int n) throws NullPointerException, NoHayProductoException, PagoInsuficienteException {
         if (m == null)
-            throw new PagoIncorrectoException("pago invalido");
+            throw new PagoIncorrectoException("Pago inválido");
 
         int vuelto = m.getValor();
         Bebida cc = null;
@@ -397,80 +378,83 @@ class Expendedor {
         Dulce sk = null;
         Dulce s8 = null;
 
-
-
-        if (n == 1) {
-            if (m.getValor() >= Precio) {
-                cc = (Bebida) coca.getProducto();
-                if (cc != null) {
-                    vuelto = m.getValor() - Precio;
+        switch (n) {
+            case 1:
+                if (m.getValor() >= Precio) {
+                    cc = (Bebida) coca.getProducto();
+                    if (cc != null) {
+                        vuelto = m.getValor() - Precio;
+                    } else {
+                        throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    }
                 } else {
-                    throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    throw new PagoInsuficienteException("Pago insuficiente");
                 }
-            } else {
-                throw new PagoInsuficienteException("Pago insuficiente");
-            }
-        } else if (n == 2) {
-            if (m.getValor() >= Precio) {
-                sp = (Bebida) sprite.getProducto();
-                if (sp != null) {
-                    vuelto = m.getValor() - Precio;
+                break;
+            case 2:
+                if (m.getValor() >= Precio) {
+                    sp = (Bebida) sprite.getProducto();
+                    if (sp != null) {
+                        vuelto = m.getValor() - Precio;
+                    } else {
+                        throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    }
                 } else {
-                    throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    throw new PagoInsuficienteException("Pago insuficiente");
                 }
-            } else {
-                throw new PagoInsuficienteException("Pago insuficiente");
-            }
-        } else if (n == 3) {
-            if (m.getValor() >= Precio) {
-                sk = (Dulce) snicker.getProducto();
-                if (sk != null) {
-                    vuelto = m.getValor() - Precio;
+                break;
+            case 3:
+                if (m.getValor() >= Precio) {
+                    sk = (Dulce) snicker.getProducto();
+                    if (sk != null) {
+                        vuelto = m.getValor() - Precio;
+                    } else {
+                        throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    }
                 } else {
-                    throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    throw new PagoInsuficienteException("Pago insuficiente");
                 }
-            } else {
-                throw new PagoInsuficienteException("Pago insuficiente");
-            }
-        } else if (n == 4) {
-            if (m.getValor() >= Precio) {
-                s8 = (Dulce) super8.getProducto();
-                if (s8 != null) {
-                    vuelto = m.getValor() - Precio;
+                break;
+            case 4:
+                if (m.getValor() >= Precio) {
+                    s8 = (Dulce) super8.getProducto();
+                    if (s8 != null) {
+                        vuelto = m.getValor() - Precio;
+                    } else {
+                        throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    }
                 } else {
-                    throw new NoHayProductoException("No hay producto, elija otro por favor");
+                    throw new PagoInsuficienteException("Pago insuficiente");
                 }
-            } else {
-                throw new PagoInsuficienteException("Pago insuficiente");
-            }
-        } else {
-            throw new NoHayProductoException("No existe ese producto, elija otro por favor");
+                break;
+            default:
+                throw new NoHayProductoException("No existe ese producto, elija otro por favor");
         }
 
-            while (vuelto > 0) {
-                monVu.addMoneda(new Moneda100());
-                vuelto = vuelto - 100;
-            }
-
-            switch (n) {
-                case 1:
-                    return cc;
-                case 2:
-                    return sp;
-                case 3:
-                    return sk;
-                case 4:
-                    return s8;
-                default:
-                    return null;
-            }
+        while (vuelto > 0) {
+            monVu.addMoneda(new Moneda100());
+            vuelto = vuelto - 100;
         }
 
-        public Moneda getVuelto(){
-            return (Moneda) monVu.getMoneda();
+        switch (n) {
+            case 1:
+                return cc;
+            case 2:
+                return sp;
+            case 3:
+                return sk;
+            case 4:
+                return s8;
+            default:
+                return null;
         }
+    }
 
+    public Moneda getVuelto() {
+        return monVu.getMoneda();
+    }
 }
+
 /** superclase abstracta para monedas
  *
  */
